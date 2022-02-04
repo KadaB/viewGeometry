@@ -6,7 +6,7 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import numpy as np
-import numpyadd as npa
+import mathadd as npa
 from camera import *
 
 class Scene: # gathers geometry and renders

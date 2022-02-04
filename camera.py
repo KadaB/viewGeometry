@@ -3,7 +3,7 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import numpy as np
-import numpyadd as npa
+import mathadd as npa
 from geometries import *
 
 # angle axis rotation
