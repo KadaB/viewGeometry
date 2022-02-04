@@ -21,6 +21,7 @@ i.e.:
 - python3
 
 Install with pip3
+- numpy
 - OpenGL.GL
 - OpenGL.GLUT
 - OpenGL.GLU
