@@ -8,7 +8,7 @@ It's still based on GLUT and legacy OpenGL and has rudimentary camera control wi
     k = rotate camera down
     l = rotate camera right
     p = zoom in
-    ; = zoom out
+    ; = zoom out (ö german)
 
 ![image](https://github.com/KadaB/viewGeometry/blob/main/image.png)
 
