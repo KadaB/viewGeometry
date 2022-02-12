@@ -12,6 +12,19 @@ It's still based on GLUT and legacy OpenGL and has rudimentary camera control wi
 
 ![image](https://github.com/KadaB/viewGeometry/blob/main/image.png)
 
+## example
+Example to display a plane
+
+
+    from basic3d import *
+    
+    def drawScene(wire=False):
+        Plane((0, 1.5, 1), (1, 0, 0), (0, 1, 0)).draw()
+    
+    glut = MyGlut(mydisplay=drawScene)
+    glut.run()
+
+
 ## run
 i.e.:
 
