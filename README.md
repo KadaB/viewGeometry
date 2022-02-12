@@ -1,7 +1,7 @@
 # viewGeometry
 A simple geometry viewer to display vector math.
 
-It's still based on GLUT and legacy OpenGL and has rudimentary camera control with
+It's still based on GLUT and legacy OpenGL and has an orbital camera control revolving around the origin with
 
     i = rotate camera up
     j = rotate camera left
