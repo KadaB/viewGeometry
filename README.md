@@ -1,5 +1,5 @@
 # viewGeometry
-A simple geometry viewer to display vector math.
+A simple geometry viewer to display vector math. So in case you are working with some vector arithmetic and you quickly want to check out if it does what you want you can write a small script displaying the vectors and planes for you.
 
 It's still based on GLUT and legacy OpenGL and has an orbital camera control revolving around the origin with
 
