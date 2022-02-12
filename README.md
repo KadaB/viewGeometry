@@ -18,7 +18,7 @@ Example to display a plane
 
     from basic3d import *
     
-    def drawScene(wire=False):
+    def drawScene():
         Plane((0, 1.5, 1), (1, 0, 0), (0, 1, 0)).draw()
     
     glut = MyGlut(mydisplay=drawScene)
