@@ -10,7 +10,7 @@ It's still based on GLUT and legacy OpenGL and has an orbital camera control rev
     p = zoom in
     ; = zoom out (ö german)
     
-    q = exits the program
+    q = quits the program
 
 ![image](https://github.com/KadaB/viewGeometry/blob/main/image.png)
 
