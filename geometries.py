@@ -314,7 +314,7 @@ class ArrowLineSection(Geometry):
 
 class Plane(Geometry):
     def __init__(self, c, a, b, color = (.8, .8, .6, 0.5)):
-        self.a, self.b, self.c = a, b, c
+        self.a, self.b, self.c = np.array(a), np.array(b), np.array(c)
         self.solidColor = color
 
     def draw(self,wire=False):
