@@ -9,6 +9,36 @@ import numpy as np
 import mathadd as npa
 from camera import *
 
+class DrawCalls(object):
+    def __init__(self, callType, vertices = []):
+        self.callType = callType
+        self.vertices = vertices
+    def __enter__(self):
+        glBegin(self.callType)
+        for vertex in self.vertices:
+            glVertex(vertex)
+    def __exit__(self, type, value, traceback):
+        glEnd()
+
+class DrawContext(object):
+    def __init__(self, transformList=[], reset = False):
+        self.transformList=transformList
+        if reset:
+            self.setTo(np.eye(3))
+    def __enter__(self):
+        glPushMatrix()
+        glPushAttrib(GL_ALL_ATTRIB_BITS)
+        for M in self.transformList:
+            self.apply(M)
+        return self
+    def apply(self, M):
+        glMultMatrixf(M.transpose())
+    def setTo(self, M):
+        glLoadMatrixf(M.transpose())
+    def __exit__(self, type, value, traceback):
+        glPopAttrib()
+        glPopMatrix()
+
 class Scene: # gathers geometry and renders
     def __init__(myList):
         pass
@@ -26,6 +56,21 @@ class Geometry:
     def intersect(o, d):
         pass
 
+class Point(Geometry):
+    def __init__(self, pos, color=(0.3, 0.3, 0.3, 1)):
+        self.pos = pos
+        self.color = color
+        self.res = 10
+        self.size = 0.07 # diameter
+
+    def draw(self,wire=False):
+        glPushMatrix()
+        glTranslate(*self.pos)
+        glColor(*self.color)
+        quadric = gluNewQuadric()
+        gluSphere(quadric, self.size/2, self.res, self.res)
+        glPopMatrix()
+
 class Circle(Geometry):
     def draw(self, wire=False):
         glColor(self.wireColor)
@@ -33,6 +78,24 @@ class Circle(Geometry):
         gluQuadricDrawStyle(quadric, GLU_SILHOUETTE)
         gluDisk(quadric, 0, .5, 20, 1)
 
+class CircleOnPlane(Geometry):
+    def __init__(self, a, b, c, res = 20):
+        self.a, self.b, self.c = np.array(a), np.array(b), np.array(c)
+        self.res = 20
+    def draw(self, wire=False):
+        res = self.res
+        u, v = self.a, self.b
+        c = self.c
+
+        points = [ c + np.cos(theta)*u + np.sin(theta)*v 
+                     for theta in np.linspace(0, np.pi*2, res, False) ]
+
+        glBegin(GL_LINE_LOOP)
+        for p in points:
+            glVertex(p)
+        glEnd()
+
+        
 # a cross looking in plane direction
 class CrossPlane(Geometry):
     def __init__(self):
@@ -148,20 +211,6 @@ class Triangle(Geometry):
         glVertex(*self.C)
         glEnd()
 
-class Point(Geometry):
-    def __init__(self, pos, color=(0.3, 0.3, 0.3, 1)):
-        self.pos = pos
-        self.color = color
-        self.res = 10
-        self.size = 0.07 # diameter
-
-    def draw(self,wire=False):
-        glPushMatrix()
-        glTranslate(*self.pos)
-        glColor(*self.color)
-        quadric = gluNewQuadric()
-        gluSphere(quadric, self.size/2, self.res, self.res)
-        glPopMatrix()
 
 class LineSection(Geometry):
     def __init__(self, startPos, endPos, lineWidth = 0.0, epsilon = 0.001):

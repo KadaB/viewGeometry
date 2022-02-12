@@ -65,3 +65,38 @@ class CrystalBallCamera:
     
     def getCamMatrix(self):
         return npa.inv(getOrientTowardsMatrix(self.pos, self.x, self.y, self.z))
+
+class WASDCamera:
+    def __init__(self, pos = (3, 3, 6), target=(0, 0, 0), worldUp=(0, 1, 0), worldForward=(0, 0, -1)):
+        self.pos = pos
+        lookDir = np.subtract(target, pos)
+        self.x, self.y, self.z = orthogonalizeFromDir(lookDir * -1) # rhc camera z
+
+        self.anglePitch = 0
+        self.angleYaw = 0
+        self.worldUp = worldUp
+        self.worldForward = worldForward
+    
+    def pitchSpin(self, theta, worldUp=(0, 1, 0)):    # hoch/runter, nicken, rotationsachse ist x-achse
+        R = rotate(self.x, -theta)
+
+        new_dir = R.dot( self.z )
+        self.z = npa.normalize( new_dir )
+        self.y = npa.normalize( R.dot( self.y ) )
+
+    def yawSpin(self, theta, worldUp=(0, 1, 0)):      # links/recht, gieren, rotationsachse ist y-achse
+        R = rotate(worldUp, -theta)
+
+        new_dir = R.dot( self.z )
+        self.z = npa.normalize( new_dir )
+        self.x = npa.normalize( R.dot(self.x) )
+        self.y = npa.normalize( R.dot(self.y) )
+    
+    def move(self, units):
+        self.pos += np.multiply(self.z, units)
+
+    def alavate(self, units):
+        self.pos += np.multiply(self.worldUp, units)
+    
+    def getCamMatrix(self):
+        return npa.inv(getOrientTowardsMatrix(self.pos, self.x, self.y, self.z))
